@@ -140,7 +140,13 @@ const Settings = () => {
     <div className="page-container">
       <div className="topbar">
         <h2>Welcome back, {userData?.name || "User"} 👋</h2>
-        <div className="user">Profile</div>
+        <button 
+          className="user" 
+          onClick={() => window.location.href = "http://localhost:5173/"}
+          style={{ cursor: "pointer", border: "none" }}
+        >
+          Home
+        </button>
       </div>
 
       <div className="settings-container">
