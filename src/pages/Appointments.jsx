@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { toast } from "react-toastify";
+import ChatModal from "../components/ChatModal";
 import "./Appointments.css";
 
 const Appointments = () => {
   const { appointments, cancelAppointment, loading, userData } =
     useContext(UserContext);
+  const [chatModalOpen, setChatModalOpen] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDocId, setSelectedDocId] = useState(null);
 
   // Format date
   const formatDate = (dateString) => {
@@ -44,6 +48,18 @@ const Appointments = () => {
         toast.error(result.message || "Failed to cancel appointment");
       }
     }
+  };
+
+  const handleOpenChat = (doctor, docId) => {
+    setSelectedDoctor(doctor);
+    setSelectedDocId(docId);
+    setChatModalOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setChatModalOpen(false);
+    setSelectedDoctor(null);
+    setSelectedDocId(null);
   };
 
   // Calculate stats
@@ -111,7 +127,16 @@ const Appointments = () => {
                       </span>
                     </div>
                   </div>
-                  <div>
+                  <div className="appointment-actions">
+                    <button
+                      className="message-btn"
+                      onClick={() =>
+                        handleOpenChat(appointment.docData, appointment.docId)
+                      }
+                      title="Message Doctor"
+                    >
+                      💬 Message
+                    </button>
                     {!appointment.cancelled && !appointment.isCompleted && (
                       <button
                         className="delete-btn"
@@ -153,6 +178,14 @@ const Appointments = () => {
           </div>
         )}
       </div>
+
+      {/* Chat Modal */}
+      <ChatModal
+        isOpen={chatModalOpen}
+        onClose={handleCloseChat}
+        doctor={selectedDoctor}
+        docId={selectedDocId}
+      />
     </div>
   );
 };

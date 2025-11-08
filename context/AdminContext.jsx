@@ -10,7 +10,7 @@ export const AdminContextProvider = ({ children }) => {
   const [appointments, setAppointments] = useState([]);
   const [dashData, setDashData] = useState(false);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
   const getAllDoctors = async () => {
     try {
