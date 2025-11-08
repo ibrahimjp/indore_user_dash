@@ -1,0 +1,159 @@
+/* Layout Container */
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #000000;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px;
+    border-right: 1px solid #1a1a1a;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #32cd87;
+    margin-bottom: 40px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #999;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.menu-item .icon {
+    font-size: 18px;
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+}
+
+.menu-item:hover {
+    background-color: rgba(50, 205, 135, 0.1);
+    color: #32cd87;
+    transform: translateX(4px);
+}
+
+.menu-item.active {
+    background-color: #32cd87;
+    color: #000000;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(50, 205, 135, 0.4);
+}
+
+.menu-item.active:hover {
+    transform: translateX(0);
+    background-color: #3de896;
+}
+
+.menu-item.logout {
+    margin-top: auto;
+    color: #ff6b6b;
+}
+
+.menu-item.logout:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    min-height: 100vh;
+    background-color: #000000;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .menu-item {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+        padding: 20px 10px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+    }
+
+    .logo {
+        font-size: 1rem;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        margin-bottom: 30px;
+    }
+
+    .menu-item {
+        padding: 12px;
+        justify-content: center;
+    }
+
+    .menu-item .icon {
+        font-size: 20px;
+    }
+
+    /* Hide text on mobile, show only icons */
+    .menu-item {
+        font-size: 0;
+    }
+
+    .menu-item .icon {
+        font-size: 22px;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}

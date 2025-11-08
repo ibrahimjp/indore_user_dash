@@ -1,0 +1,315 @@
+/* Page Container */
+.page-container {
+    padding: 25px 40px;
+    background-color: #000000;
+    min-height: 100vh;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.topbar h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.user {
+    background: #32cd87;
+    color: #000000;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user:hover {
+    background: #3de896;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(50, 205, 135, 0.4);
+}
+
+/* Dashboard Grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+/* Card Styling */
+.card {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(50, 205, 135, 0.15);
+    border-color: rgba(50, 205, 135, 0.3);
+}
+
+.card h2 {
+    color: #32cd87;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 12px 10px;
+    font-size: 0.95rem;
+}
+
+thead {
+    background: #32cd87;
+    color: #000000;
+    font-weight: 600;
+}
+
+thead th {
+    padding: 14px 10px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #1a1a1a;
+    transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+    background: rgba(50, 205, 135, 0.08);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    color: #ccc;
+}
+
+.status-confirmed {
+    color: #32cd87;
+    font-weight: 600;
+}
+
+.status-pending {
+    color: #ffd966;
+    font-weight: 600;
+}
+
+/* Graph Card */
+.card.graph {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-wrapper {
+    flex: 1;
+    position: relative;
+    min-height: 220px;
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Prescription Styling */
+.prescription {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(50, 205, 135, 0.05);
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.prescription:hover {
+    background: rgba(50, 205, 135, 0.12);
+    border-color: rgba(50, 205, 135, 0.3);
+}
+
+.prescription:last-child {
+    margin-bottom: 0;
+}
+
+.pill-icon {
+    background: rgba(50, 205, 135, 0.15);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    margin-right: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.prescription-details h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.prescription-details p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Chat Styling */
+.chat {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: rgba(50, 205, 135, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.chat:hover {
+    background: rgba(50, 205, 135, 0.12);
+    border-color: rgba(50, 205, 135, 0.3);
+}
+
+.chat img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid #32cd87;
+}
+
+.chat div h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.chat div p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Health Tips */
+.tip {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: rgba(50, 205, 135, 0.05);
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.tip:hover {
+    background: rgba(50, 205, 135, 0.12);
+    border-color: rgba(50, 205, 135, 0.3);
+}
+
+.tip:last-child {
+    margin-bottom: 0;
+}
+
+.tip span {
+    color: #32cd87;
+    margin-right: 12px;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.tip {
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 20px;
+    }
+
+    .topbar h2 {
+        font-size: 1.4rem;
+    }
+
+    .user {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .card h2 {
+        font-size: 1.1rem;
+    }
+
+    th,
+    td {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        padding: 15px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .topbar h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th,
+    td {
+        padding: 8px 6px;
+    }
+}
