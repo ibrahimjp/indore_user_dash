@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { getBackendUrl } from "../src/utils/api";
 
 export const UserContext = createContext();
@@ -11,6 +10,8 @@ export const UserContextProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("userToken") || "");
   const [userData, setUserData] = useState(null);
   const [appointments, setAppointments] = useState([]);
+  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Register User
@@ -71,6 +72,8 @@ export const UserContextProvider = ({ children }) => {
     setToken("");
     setUserData(null);
     setAppointments([]);
+    setUpcomingAppointments([]);
+    setChatHistory([]);
     localStorage.removeItem("userToken");
   };
 
@@ -154,6 +157,7 @@ export const UserContextProvider = ({ children }) => {
 
       if (data.success) {
         await getUserAppointments();
+        await getUpcomingAppointments();
         return { success: true, message: data.message };
       } else {
         return { success: false, message: data.message };
@@ -180,6 +184,7 @@ export const UserContextProvider = ({ children }) => {
 
       if (data.success) {
         await getUserAppointments();
+        await getUpcomingAppointments();
         return { success: true, message: data.message };
       } else {
         return { success: false, message: data.message };
@@ -206,6 +211,7 @@ export const UserContextProvider = ({ children }) => {
 
       if (data.success) {
         await getUserAppointments();
+        await getUpcomingAppointments();
         return { success: true, message: data.message };
       } else {
         return { success: false, message: data.message };
@@ -220,11 +226,95 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  // Get Chat History
+  const getChatHistory = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/user/chat-history`, {
+        headers: { token },
+      });
+
+      if (data.success) {
+        setChatHistory(data.conversations);
+      }
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
+    }
+  };
+
+  // Get Doctor Messages
+  const getDoctorMessages = async (docId) => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/user/chat/${docId}`,
+        {
+          headers: { token },
+        }
+      );
+
+      if (data.success) {
+        return { success: true, messages: data.messages, doctor: data.doctor };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to fetch messages",
+      };
+    }
+  };
+
+  // Send Message
+  const sendMessage = async (docId, message) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/send-message`,
+        { docId, message },
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        await getChatHistory();
+        return { success: true, message: data.message, chat: data.chat };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to send message",
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Get Upcoming Appointments
+  const getUpcomingAppointments = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/user/upcoming-appointments`,
+        {
+          headers: { token },
+        }
+      );
+
+      if (data.success) {
+        setUpcomingAppointments(data.upcomingAppointments);
+      }
+    } catch (error) {
+      console.error("Error fetching upcoming appointments:", error);
+    }
+  };
+
   // Load user data on token change
   useEffect(() => {
     if (token) {
       getUserProfile();
       getUserAppointments();
+      getChatHistory();
+      getUpcomingAppointments();
     }
   }, [token]);
 
@@ -235,6 +325,10 @@ export const UserContextProvider = ({ children }) => {
     setUserData,
     appointments,
     setAppointments,
+    upcomingAppointments,
+    setUpcomingAppointments,
+    chatHistory,
+    setChatHistory,
     loading,
     backendUrl,
     registerUser,
@@ -246,6 +340,10 @@ export const UserContextProvider = ({ children }) => {
     bookAppointment,
     cancelAppointment,
     makePayment,
+    getChatHistory,
+    getDoctorMessages,
+    sendMessage,
+    getUpcomingAppointments,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

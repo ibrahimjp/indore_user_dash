@@ -6,7 +6,13 @@ const Prescriptions = () => {
     <div className="page-container">
       <div className="topbar">
         <h2>Welcome back, Emily 👋</h2>
-        <div className="user">Profile</div>
+        <button 
+          className="user" 
+          onClick={() => window.location.href = "http://localhost:5173/"}
+          style={{ cursor: "pointer", border: "none" }}
+        >
+          Home
+        </button>
       </div>
 
       {/* Medical Prescription */}

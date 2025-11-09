@@ -30,7 +30,7 @@ const Layout = () => {
     <div className="layout">
       {/* Sidebar */}
       <aside className="sidebar">
-        <div className="logo">User-Dashboard</div>
+        <div className="logo">Dashboard</div>
         <nav className="menu">
           <NavLink
             to="/dashboard"

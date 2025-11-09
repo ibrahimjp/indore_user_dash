@@ -6,58 +6,58 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const chartRef = useRef(null);
   let healthChart = useRef(null);
-  const { userData, appointments } = useContext(UserContext);
+  const { userData, appointments, upcomingAppointments, getUpcomingAppointments } = useContext(UserContext);
 
   useEffect(() => {
-    const ctx = chartRef.current.getContext("2d");
+    if (chartRef.current) {
+      const ctx = chartRef.current.getContext("2d");
 
-    if (healthChart.current) healthChart.current.destroy();
+      if (healthChart.current) healthChart.current.destroy();
 
-    healthChart.current = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["M", "T", "W", "T", "F"],
-        datasets: [
-          {
-            label: "Health Check-ins",
-            data: [15, 20, 18, 22, 21],
-            borderColor: "#32cd87",
-            backgroundColor: "rgba(50,205,135,0.1)",
-            fill: true,
-            tension: 0.4,
-            pointRadius: 4,
-            pointBackgroundColor: "#32cd87",
+      healthChart.current = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["M", "T", "W", "T", "F"],
+          datasets: [
+            {
+              label: "Health Check-ins",
+              data: [15, 20, 18, 22, 21],
+              borderColor: "#32cd87",
+              backgroundColor: "rgba(50,205,135,0.1)",
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: "#32cd87",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              ticks: { color: "#aaa" },
+              grid: { color: "#1f1f1f" },
+            },
+            y: {
+              ticks: { color: "#aaa" },
+              grid: { color: "#1f1f1f" },
+            },
           },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            ticks: { color: "#aaa" },
-            grid: { color: "#1f1f1f" },
-          },
-          y: {
-            ticks: { color: "#aaa" },
-            grid: { color: "#1f1f1f" },
+          plugins: {
+            legend: { labels: { color: "#32cd87" } },
           },
         },
-        plugins: {
-          legend: { labels: { color: "#32cd87" } },
-        },
-      },
-    });
+      });
+    }
 
     return () => {
       if (healthChart.current) healthChart.current.destroy();
     };
   }, []);
 
-  // Get upcoming appointments (not cancelled and not completed)
-  const upcomingAppointments = appointments
-    .filter((apt) => !apt.cancelled && !apt.isCompleted)
-    .slice(0, 3);
+  // Get upcoming appointments from context (already filtered by backend)
+  const displayUpcomingAppointments = upcomingAppointments.slice(0, 3);
 
   // Format date
   const formatDate = (dateString) => {
@@ -84,14 +84,20 @@ const Dashboard = () => {
     <div className="page-container">
       <div className="topbar">
         <h2>Welcome back, {userData?.name || "User"} 👋</h2>
-        <div className="user">Profile</div>
+        <button 
+          className="user" 
+          onClick={() => window.location.href = "http://localhost:5173/"}
+          style={{ cursor: "pointer", border: "none" }}
+        >
+          Home
+        </button>
       </div>
 
       <div className="dashboard">
         {/* Upcoming Appointments */}
         <div className="card">
           <h2>Upcoming Appointments</h2>
-          {upcomingAppointments.length > 0 ? (
+          {displayUpcomingAppointments.length > 0 ? (
             <table>
               <thead>
                 <tr>
@@ -102,7 +108,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {upcomingAppointments.map((appointment) => (
+                {displayUpcomingAppointments.map((appointment) => (
                   <tr key={appointment._id}>
                     <td>{appointment.docData?.name || "N/A"}</td>
                     <td>{formatDate(appointment.slotDate)}</td>
