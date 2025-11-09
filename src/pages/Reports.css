@@ -66,12 +66,20 @@
   border: 1px solid #1a1a1a;
   transition: all 0.3s ease;
   cursor: pointer;
+  text-align: left;
+  width: 100%;
+  border: 1px solid #1a1a1a;
 }
 
 .report-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(50, 205, 135, 0.15);
   border-color: rgba(50, 205, 135, 0.3);
+}
+
+.report-card:disabled {
+  opacity: 0.8;
+  cursor: wait;
 }
 
 /* Report Title */
@@ -87,6 +95,13 @@
   font-weight: 600;
   margin: 0;
   line-height: 1.4;
+}
+
+.report-session {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Report Details */
@@ -131,6 +146,27 @@
   font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.reports-loading,
+.reports-empty,
+.reports-error {
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(50, 205, 135, 0.2);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.reports-error button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(50, 205, 135, 0.4);
+  background: transparent;
+  color: #32cd87;
+  cursor: pointer;
 }
 
 /* Responsive Design */

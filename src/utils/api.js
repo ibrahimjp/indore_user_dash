@@ -1,6 +1,29 @@
 import axios from "axios";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const normalizeBackendUrl = (value) => {
+  if (typeof value !== "string") {
+    return "http://localhost:8000";
+  }
+
+  const trimmed = value.replace(/^['"]+|['"]+$/g, "").trim();
+  if (!trimmed) {
+    return "http://localhost:8000";
+  }
+
+  return trimmed.replace(/\/+$/, "");
+};
+
+const backendUrl = normalizeBackendUrl(import.meta.env.VITE_BACKEND_URL);
+
+let websocketBaseUrl = "ws://localhost:8000";
+try {
+  const parsedUrl = new URL(backendUrl);
+  websocketBaseUrl = `${
+    parsedUrl.protocol === "https:" ? "wss:" : "ws:"
+  }//${parsedUrl.host}`;
+} catch (error) {
+  console.warn("Failed to derive websocket url from backendUrl:", error);
+}
 
 /**
  * Check if backend API is reachable
@@ -21,7 +44,11 @@ export const checkBackendConnection = async () => {
  * @returns {string}
  */
 export const getBackendUrl = () => {
-  return backendUrl || "http://localhost:8000";
+  return backendUrl;
+};
+
+export const getWebsocketBaseUrl = () => {
+  return websocketBaseUrl;
 };
 
 /**

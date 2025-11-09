@@ -49,12 +49,12 @@ const Layout = () => {
             <span className="icon">📅</span> Appointments
           </NavLink>
           <NavLink
-            to="/prescriptions"
+            to="/chat"
             className={({ isActive }) =>
               isActive ? "menu-item active" : "menu-item"
             }
           >
-            <span className="icon">💊</span> Prescriptions
+            <span className="icon">📂</span> Talk to AI
           </NavLink>
           <NavLink
             to="/reports"
@@ -71,14 +71,6 @@ const Layout = () => {
             }
           >
             <span className="icon">💬</span> Messages
-          </NavLink>
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              isActive ? "menu-item active" : "menu-item"
-            }
-          >
-            <span className="icon">⚙️</span> Settings
           </NavLink>
           <div className="menu-item logout" onClick={handleLogout}>
             <span className="icon">🚪</span> Logout

@@ -1,0 +1,243 @@
+.case-report-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 7, 12, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 24px;
+}
+
+.case-report-modal,
+.case-report-page {
+  width: min(960px, 100%);
+  background: #050505;
+  border-radius: 20px;
+  border: 1px solid rgba(50, 205, 135, 0.22);
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.case-report-modal {
+  max-height: calc(100vh - 80px);
+  box-shadow: 0 30px 80px rgba(10, 220, 140, 0.15);
+  overflow-y: auto;
+}
+
+.case-report-page {
+  margin: 0 auto;
+  box-shadow: 0 20px 50px rgba(10, 220, 140, 0.1);
+}
+
+.case-report-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.case-report-modal__title h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #32cd87;
+}
+
+.case-report-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(50, 205, 135, 0.4);
+  background: rgba(50, 205, 135, 0.12);
+  color: #32cd87;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.case-report-modal__title .meta {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.95rem;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.case-report-modal__close {
+  background: rgba(50, 205, 135, 0.15);
+  border: 1px solid rgba(50, 205, 135, 0.4);
+  color: #32cd87;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.case-report-modal__close:hover {
+  background: rgba(50, 205, 135, 0.25);
+}
+
+.case-report-section {
+  margin-bottom: 28px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  color: #32cd87;
+  font-size: 1.2rem;
+}
+
+.section-heading .badge {
+  background: rgba(50, 205, 135, 0.15);
+  color: #32cd87;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.case-report-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.case-report-detail-card {
+  background: rgba(11, 25, 20, 0.55);
+  border: 1px solid rgba(50, 205, 135, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.case-report-detail-card .label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.case-report-detail-card .value {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
+}
+
+.patient-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.summary-block {
+  background: rgba(6, 15, 12, 0.75);
+  border: 1px solid rgba(50, 205, 135, 0.2);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  line-height: 1.6;
+}
+
+.summary-label {
+  font-weight: 600;
+  color: #32cd87;
+}
+
+.diagnosis-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.diagnosis-list h4 {
+  margin: 0 0 6px 0;
+  color: #32cd87;
+}
+
+.prescription-table {
+  border: 1px solid rgba(50, 205, 135, 0.2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.prescription-table .table-header,
+.prescription-table .table-row {
+  display: grid;
+  grid-template-columns: 1.2fr repeat(4, 1fr);
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.prescription-table .table-header {
+  background: rgba(50, 205, 135, 0.15);
+  color: #32cd87;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.prescription-table .table-row {
+  background: rgba(6, 15, 12, 0.75);
+  color: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid rgba(50, 205, 135, 0.1);
+}
+
+.notes-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.recommendation-card {
+  background: linear-gradient(
+    135deg,
+    rgba(50, 205, 135, 0.15),
+    rgba(50, 205, 135, 0.05)
+  );
+  border: 1px solid rgba(50, 205, 135, 0.25);
+  border-radius: 14px;
+  padding: 18px;
+  color: rgba(255, 255, 255, 0.92);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .case-report-modal {
+    padding: 24px;
+  }
+
+  .case-report-page {
+    padding: 24px;
+  }
+
+  .prescription-table .table-header,
+  .prescription-table .table-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+

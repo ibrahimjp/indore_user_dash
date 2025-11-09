@@ -1,45 +1,58 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "./Reports.css";
+import { apiClient, getErrorMessage } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Reports = () => {
-  const reports = [
-    {
-      title: "Acute Myocardial Infarction with ST-Elevation",
-      date: "November 05, 2024",
-      time: "10:45am",
-      id: "CR-2024-001",
-    },
-    {
-      title: "Type 2 Diabetes Mellitus Management",
-      date: "November 04, 2024",
-      time: "11:30am",
-      id: "CR-2024-002",
-    },
-    {
-      title: "Community-Acquired Pneumonia Assessment",
-      date: "November 03, 2024",
-      time: "9:00am",
-      id: "CR-2024-003",
-    },
-    {
-      title: "Chronic Obstructive Pulmonary Disease Exacerbation",
-      date: "November 02, 2024",
-      time: "10:15am",
-      id: "CR-2024-004",
-    },
-    {
-      title: "Acute Appendicitis Pre-Operative Evaluation",
-      date: "November 01, 2024",
-      time: "10:30am",
-      id: "CR-2024-005",
-    },
-    {
-      title: "Hypertensive Crisis Management",
-      date: "October 31, 2024",
-      time: "7:00pm",
-      id: "CR-2024-006",
-    },
-  ];
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const formatIssued = useCallback((timestamp) => {
+    if (!timestamp) {
+      return { date: "N/A", time: "N/A" };
+    }
+
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) {
+      return { date: "N/A", time: "N/A" };
+    }
+
+    return {
+      date: date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
+      time: date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      }),
+    };
+  }, []);
+
+  const loadReports = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { data } = await apiClient.get("/api/reports");
+      setReports(data?.reports || []);
+    } catch (err) {
+      const message = getErrorMessage(err);
+      setError(message);
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadReports();
+  }, [loadReports]);
+
+  const totalReports = useMemo(() => reports.length, [reports]);
 
   return (
     <div className="page-container">
@@ -52,38 +65,69 @@ const Reports = () => {
         <h1>Case Reports</h1>
         <div className="total-reports">
           <h3>Total Reports</h3>
-          <p className="count">{reports.length}</p>
+          <p className="count">{totalReports}</p>
         </div>
       </div>
 
       <hr className="divider" />
 
-      <div className="reports-list">
-        {reports.map((report, index) => (
-          <div className="report-card" key={index}>
-            <div className="report-title">
-              <h2>{report.title}</h2>
-            </div>
-            <div className="report-details">
-              <div className="detail-item">
-                <h4>Issued Date</h4>
-                <p>{report.date}</p>
-              </div>
-              <div className="detail-item">
-                <h4>Issued Time</h4>
-                <p>{report.time}</p>
-              </div>
-              <div className="detail-item">
-                <h4>Report ID</h4>
-                <p>{report.id}</p>
-              </div>
-              <div className="report-tag">
-                <span>AI Generated</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="reports-loading">Loading case reports…</div>
+      ) : error ? (
+        <div className="reports-error">
+          <p>{error}</p>
+          <button type="button" onClick={loadReports}>
+            Retry
+          </button>
+        </div>
+      ) : reports.length === 0 ? (
+        <div className="reports-empty">
+          <h3>No reports yet</h3>
+          <p>
+            Complete a consultation and end the chat to generate your first
+            AI-powered case report.
+          </p>
+        </div>
+      ) : (
+        <div className="reports-list">
+          {reports.map((report) => {
+            const issued = formatIssued(report.issuedAt);
+            return (
+              <button
+                type="button"
+                className="report-card"
+                key={report.reportId}
+                onClick={() => navigate(`/reports/${report.reportId}`)}
+              >
+                <div className="report-title">
+                  <h2>{report.title}</h2>
+                  <span className="report-session">
+                    {report.sessionTitle || "SympAI consultation"}
+                  </span>
+                </div>
+                <div className="report-details">
+                  <div className="detail-item">
+                    <h4>Issued Date</h4>
+                    <p>{issued.date}</p>
+                  </div>
+                  <div className="detail-item">
+                    <h4>Issued Time</h4>
+                    <p>{issued.time}</p>
+                  </div>
+                  <div className="detail-item">
+                    <h4>Report ID</h4>
+                    <p>{report.reportId}</p>
+                  </div>
+                  <div className="report-tag">
+                    <span>{report.aiGenerated ? "AI Generated" : "Clinician added"}</span>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
     </div>
   );
 };

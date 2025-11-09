@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getBackendUrl } from "../src/utils/api";
 
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = getBackendUrl();
 
   const [token, setToken] = useState(localStorage.getItem("userToken") || "");
   const [userData, setUserData] = useState(null);
