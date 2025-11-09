@@ -72,6 +72,14 @@ const Layout = () => {
           >
             <span className="icon">💬</span> Messages
           </NavLink>
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <span className="icon">⚙️</span> Settings
+          </NavLink>
           <div className="menu-item logout" onClick={handleLogout}>
             <span className="icon">🚪</span> Logout
           </div>

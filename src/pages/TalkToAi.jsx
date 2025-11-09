@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "./TalkToAI.css";
 import { useAiChat } from "../../context/AiChatContext";
+import { UserContext } from "../../context/UserContext";
 import { toast } from "react-toastify";
 import CaseReportModal from "../components/CaseReportModal";
 
@@ -59,6 +60,7 @@ const formatTimestamp = (value) => {
 };
 
 const TalkToAI = () => {
+  const { userData } = useContext(UserContext);
   const { chatId } = useParams();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -436,7 +438,7 @@ const TalkToAI = () => {
     <div className="dashboard-container">
       <div className="main">
         <div className="topbar">
-          <h2>Welcome back, Emily 👋</h2>
+          <h2>Welcome back, {userData?.name ? userData.name.trim() : "User"} 👋</h2>
           <div className="profile">Profile</div>
         </div>
 

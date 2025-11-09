@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState, useContext } from "react";
 import "./Reports.css";
 import { apiClient, getErrorMessage } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UserContext } from "../../context/UserContext";
 
 const Reports = () => {
+  const { userData } = useContext(UserContext);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

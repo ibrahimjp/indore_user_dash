@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Prescriptions.css";
+import { UserContext } from "../../context/UserContext";
 
 const Prescriptions = () => {
+  const { userData } = useContext(UserContext);
+  
   return (
     <div className="page-container">
       <div className="topbar">
-        <h2>Welcome back, Emily 👋</h2>
+        <h2>Welcome back, {userData?.name ? userData.name.trim() : "User"} 👋</h2>
         <button 
           className="user" 
           onClick={() => window.location.href = "http://localhost:5173/"}

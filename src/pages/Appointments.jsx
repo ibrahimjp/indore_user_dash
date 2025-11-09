@@ -13,9 +13,81 @@ const Appointments = () => {
 
   // Format date
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { day: "numeric", month: "long", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    if (!dateString) return "N/A";
+    
+    try {
+      let date;
+      
+      if (typeof dateString === 'string') {
+        // Trim whitespace
+        const trimmed = dateString.trim();
+        
+        // Try ISO format first (most common)
+        date = new Date(trimmed);
+        
+        // If invalid, try YYYY-MM-DD format (common format)
+        if (isNaN(date.getTime())) {
+          const dashParts = trimmed.split('-');
+          if (dashParts.length === 3) {
+            const year = parseInt(dashParts[0], 10);
+            const month = parseInt(dashParts[1], 10) - 1; // Month is 0-indexed
+            const day = parseInt(dashParts[2], 10);
+            
+            if (!isNaN(year) && !isNaN(month) && !isNaN(day) && 
+                year > 0 && month >= 0 && month < 12 && day > 0 && day <= 31) {
+              date = new Date(year, month, day);
+            }
+          }
+          
+          // If still invalid, try MM/DD/YYYY or DD/MM/YYYY format
+          if (isNaN(date.getTime())) {
+            const slashParts = trimmed.split('/');
+            if (slashParts.length === 3) {
+              // Try MM/DD/YYYY first (US format)
+              const month2 = parseInt(slashParts[0], 10) - 1;
+              const day2 = parseInt(slashParts[1], 10);
+              const year2 = parseInt(slashParts[2], 10);
+              
+              if (!isNaN(year2) && !isNaN(month2) && !isNaN(day2) &&
+                  year2 > 0 && month2 >= 0 && month2 < 12 && day2 > 0 && day2 <= 31) {
+                date = new Date(year2, month2, day2);
+              }
+            }
+          }
+          
+          // If still invalid, try DD-MM-YYYY format
+          if (isNaN(date.getTime()) && trimmed.includes('-')) {
+            const parts = trimmed.split('-');
+            if (parts.length === 3) {
+              const day3 = parseInt(parts[0], 10);
+              const month3 = parseInt(parts[1], 10) - 1;
+              const year3 = parseInt(parts[2], 10);
+              
+              if (!isNaN(year3) && !isNaN(month3) && !isNaN(day3) &&
+                  year3 > 0 && month3 >= 0 && month3 < 12 && day3 > 0 && day3 <= 31) {
+                date = new Date(year3, month3, day3);
+              }
+            }
+          }
+        }
+      } else {
+        date = new Date(dateString);
+      }
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        console.warn("Could not parse date:", dateString);
+        // Return the original string so user can at least see what's there
+        return dateString;
+      }
+      
+      const options = { day: "numeric", month: "long", year: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    } catch (error) {
+      console.error("Error formatting date:", error, dateString);
+      // Return the original string if parsing fails
+      return typeof dateString === 'string' ? dateString : "Invalid Date";
+    }
   };
 
   // Format time
