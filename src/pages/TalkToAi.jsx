@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import "./TalkToAI.css";
+import "./TalkToAi.css";
 import { useAiChat } from "../../context/AiChatContext";
 import { UserContext } from "../../context/UserContext";
 import { toast } from "react-toastify";
